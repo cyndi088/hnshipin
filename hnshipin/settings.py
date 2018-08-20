@@ -14,12 +14,24 @@ BOT_NAME = 'hnshipin'
 SPIDER_MODULES = ['hnshipin.spiders']
 NEWSPIDER_MODULE = 'hnshipin.spiders'
 
+# MONGO_HOST = '106.14.176.62'
+MONGO_HOST = 'localhost'
+MONGO_PORT = 27017
+# MONGO_USER = 'llps'
+# MONGO_PSW = 'llps&789'
+MONGO_DB = 'hnshipin'
+# MONGO_COLL = 'cities_test'
+
+MYSQL_HOST = "192.168.10.121"
+MYSQL_USER = 'hzyg'
+MYSQL_PASSWORD = '@hzyq20180426..'
+MYSQL_DB = 'yfhunt'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'hnshipin (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -64,9 +76,10 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'hnshipin.pipelines.HnshipinPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   # 'hnshipin.pipelines.HnshipinPipeline': 300,
+    'hnshipin.pipelines.MongodbPipeline': 350,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
