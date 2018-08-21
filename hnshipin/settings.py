@@ -9,6 +9,11 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+import os
+# 配置数据保存路径，为当前工程目录下的 images 目录中
+project_dir = os.path.abspath(os.path.dirname(__file__))
+IMAGES_STORE = 'C:\\Users\\Administrator\\Desktop\\hnphotos'
+
 BOT_NAME = 'hnshipin'
 
 SPIDER_MODULES = ['hnshipin.spiders']
@@ -79,6 +84,7 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
    # 'hnshipin.pipelines.HnshipinPipeline': 300,
     'hnshipin.pipelines.MongodbPipeline': 350,
+    'hnshipin.pipelines.PicPhotoPeoplePipeline': 360,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

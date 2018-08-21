@@ -3,6 +3,8 @@ import re
 import scrapy
 from scrapy import Request
 from .. items import ShopsItem
+from ..items import PicPhotoPeopleItem
+from scrapy.utils.project import get_project_settings
 
 
 class HnspSpider(scrapy.Spider):
@@ -30,6 +32,7 @@ class HnspSpider(scrapy.Spider):
             yield request
 
     def shop_parse(self, response):
+        settings = get_project_settings()
         meta = response.meta
         shop = ShopsItem()
         shop['id'] = meta['shop_id']
@@ -44,8 +47,17 @@ class HnspSpider(scrapy.Spider):
             .extract_first()
         shop['phone'] = response.xpath("//div[@class='xx_box']//div[@class='line'][5]//div[1]/text()")\
             .extract_first()
-        images_url = response.xpath("//div[@class='leftimg']/img[@id='xqimg']/@src").extract_first()
+        photo_name = response.xpath("//div[@class='leftimg']/img[@id='xqimg']/@src").extract_first().split('?')[0].split('/')[-1]
+        if photo_name:
+            shop['photo_path'] = settings['IMAGES_STORE'] + '\\' + photo_name
+        else:
+            shop['photo_path'] = ''
+        img_list = response.xpath("//div[@class='leftimg']/img[@id='xqimg']/@src").extract()
+        item = PicPhotoPeopleItem()
+        item['id'] = shop['id']
+        item['image_urls'] = img_list  # 保存到item的image_urls里
         yield shop
+        yield item
 
     @staticmethod
     def get_page(url):
